@@ -1,18 +1,20 @@
+
+
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 $servername = "localhost";
 $username = "root";
-$password = ""; // Default XAMPP password is empty
-$dbname = "quickfit_db"; // Make sure this matches your name in phpMyAdmin
+$password = "";
+$dbname = "quickfit_db";
 
-// 1. Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// 2. Check connection
 if ($conn->connect_error) {
-    // If it fails, stop the script and show the error
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Optional: Echo this only during testing to confirm it works
-// echo "Connected successfully to QuickFit Database!";
+echo "<h1>Successfully connected to the database!</h1>";
 ?>
