@@ -94,3 +94,44 @@ body {
     text-shadow: 0 0 20px rgba(213, 186, 255, 0.25);
 }
 
+/* style.css */
+:root {
+    --primary: #d5baff;            /* Soft Lavender */
+    --primary-container: #210f3c;  /* Darker Purple */
+    --background: #0a090c;         /* Pure Midnight */
+    --surface-container-high: #1a181e;
+    --on-surface-variant: #8e8696;
+    --outline-variant: #2d2a33;
+}
+
+/* Add this to force the background color if Tailwind fails */
+body {
+    background-color: #0b0810 !important;
+    color: #f1eff3;
+    font-family: 'Inter', sans-serif;
+}
+:root {
+    /* Primary Purple Shades */
+    --primary: #d5baff;            
+    --primary-container: #11081f;  
+    
+    /* Backgrounds: Deep Purple instead of pure Black */
+    --background: #1a1625;         
+    --surface: #241f31;            
+    --surface-container-high: #2d273f;
+    
+    --on-background: #f1eff3;      
+    --outline-variant: #443b5a;
+}
+
+/* Force body background if tailwind is slow to load */
+body {
+    background-color: #000000 !important;
+    background-image: radial-gradient(circle at top left, #381f67, #1c1728);
+    min-height: 100vh;
+}
+
+/* Ensure any input that is white has black text */
+input[type="text"], input[type="password"], select {
+    color: #c7bebe !important;
+}

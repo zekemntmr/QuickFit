@@ -1,5 +1,4 @@
 <?php
-<?php
 session_start();
 include 'connectiondb.php'; // Ensure this file has the correct DB name
 $error = "";
@@ -20,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Access Denied. Check credentials.";
     }
 }
-?>
+
 ?>
 
 <!DOCTYPE html>
