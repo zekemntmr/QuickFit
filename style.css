@@ -131,7 +131,24 @@ body {
     min-height: 100vh;
 }
 
-/* Ensure any input that is white has black text */
-input[type="text"], input[type="password"], select {
-    color: #c7bebe !important;
+/* style.css */
+
+/* This forces all input text to be black and the background to be white */
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+select {
+    background-color: #ffffff !important; /* Force white background */
+    color: #000000 !important;           /* Force black text */
+    opacity: 1 !important;               /* Ensure it's not transparent */
+}
+
+/* This makes sure the text you type is thick and visible */
+input {
+    font-weight: 600 !important;
+}
+
+/* This fixes the placeholder color so it's not too dark */
+input::placeholder {
+    color: #4b5563 !important; 
 }

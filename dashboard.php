@@ -89,7 +89,7 @@ while($row = $chart_data->fetch_assoc()){
             
             <div class="lg:col-span-1 space-y-8">
                 <div class="bg-surface-container-high p-6 rounded-3xl border border-primary/20 shadow-xl">
-                    <h2 id="form-title" class="text-sm font-label-caps text-primary mb-4">Add New Athlete</h2>
+                    <h2 id="form-title" class="text-sm font-label-caps text-primary mb-4">Add New Member</h2>
                     <form id="member-form" method="POST" class="space-y-3">
                         <input type="hidden" name="member_id" id="edit-id" value="">
                         
@@ -141,19 +141,19 @@ while($row = $chart_data->fetch_assoc()){
                                         <?php echo $row['plan_name']; ?>
                                     </span>
                                 </td>
-                                <td class="py-4 text-on-surface">$<?php echo number_format($row['price'], 2); ?></td>
+                                <td class="py-4 text-on-surface">₱<?php echo number_format($row['price'], 2); ?></td>
                                 <td class="py-4"><span class="text-green-400 text-[10px] font-bold tracking-widest">● ACTIVE</span></td>
                                 <td class="py-4 text-right space-x-3">
                                     <button type="button" onclick="editMember('<?php echo $row['member_id']; ?>', '<?php echo $row['fname']; ?>', '<?php echo $row['lname']; ?>', '<?php echo $row['plan_id']; ?>')" 
                                             class="text-blue-400 text-[10px] uppercase font-black hover:underline transition-all">Edit</button>
                                     <a href="dashboard.php?delete_id=<?php echo $row['member_id']; ?>" 
-                                       onclick="return confirm('Delete athlete?')" 
+                                       onclick="return confirm('Delete Member?')" 
                                        class="text-red-400 text-[10px] uppercase font-black hover:underline transition-all">Delete</a>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
                         <?php else: ?>
-                            <tr><td colspan="6" class="py-10 text-center text-on-surface-variant italic">No athletes found matching your search.</td></tr>
+                            <tr><td colspan="6" class="py-10 text-center text-on-surface-variant italic">No members found matching your search.</td></tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
