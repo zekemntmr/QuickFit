@@ -124,7 +124,7 @@
 
     <footer class="bg-surface-container-lowest border-t border-outline-variant flex flex-col md:flex-row justify-between items-center px-margin py-8 gap-8">
         <div class="text-xl font-black text-primary uppercase">QuickfitZe</div>
-        <div class="text-[10px] text-on-surface-variant uppercase tracking-widest">© 2026 Internal Administrative System</div>
+        <div class="text-[10px] text-on-surface-variant uppercase tracking-widest">© 2026 Fundamental of Database</div>
     </footer>
 
 </body>
