@@ -1,131 +1,77 @@
-<?php 
-include 'connectiondb.php'; 
-// SQL JOIN to get member names and their plan prices
-$query = "SELECT members.member_id, members.fname, members.lname, plans.plan_name, plans.price 
-          FROM members 
-          INNER JOIN plans ON members.plan_id = plans.plan_id";
-$result = $conn->query($query);
+<?php
+session_start();
+if (!isset($_SESSION['user'])) { header("Location: login.php"); exit(); }
+include 'connectiondb.php';
+
+// Handle adding a new member manually
+if (isset($_POST['add_member'])) {
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $plan_id = $_POST['plan_id'];
+    $conn->query("INSERT INTO members (fname, lname, plan_id) VALUES ('$fname', '$lname', '$plan_id')");
+}
+
+// Get Data
+$members = $conn->query("SELECT m.member_id, m.fname, m.lname, p.plan_name, p.price 
+                         FROM members m INNER JOIN plans p ON m.plan_id = p.plan_id");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark">
 <head>
-    <meta charset="UTF-8">
-    <title>QuickFit | Admin Dashboard</title>
+    <title>QuickfitZe Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-background text-on-background p-8">
 
-<div class="sidebar">
-    <div class="logo">Quick<span>Fit</span></div>
-    <nav>
-        <a href="#" class="active">Dashboard</a>
-        <a href="#">Members</a>
-        <a href="#">Plans</a>
-        <a href="#">Settings</a>
-    </nav>
-</div>
+    <div class="max-w-6xl mx-auto">
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h1 class="text-3xl font-black text-primary uppercase">QuickfitZe Admin</h1>
+                <p class="text-xs font-label-caps text-on-surface-variant">Logged in as: <?php echo $_SESSION['user']; ?></p>
+            </div>
+            <a href="logout.php" class="border border-outline-variant px-6 py-2 rounded-full text-xs font-bold hover:bg-red-500/20">Logout</a>
+        </header>
 
-<div class="main-content">
-    <header>
-        <h1>Gym Overview</h1>
-        <div class="user-profile">Admin</div>
-    </header>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="bg-surface-container-high p-8 rounded-3xl border border-primary/10 h-fit">
+                <h2 class="text-xl font-bold mb-6 text-primary">Register New Athlete</h2>
+                <form method="POST" class="space-y-4">
+                    <input type="hidden" name="add_member" value="1">
+                    <input type="text" name="fname" placeholder="First Name" required class="w-full bg-background border border-outline-variant p-3 rounded-xl">
+                    <input type="text" name="lname" placeholder="Last Name" required class="w-full bg-background border border-outline-variant p-3 rounded-xl">
+                    <select name="plan_id" class="w-full bg-background border border-outline-variant p-3 rounded-xl">
+                        <option value="1">Basic Plan</option>
+                        <option value="2">Pro Plan</option>
+                        <option value="3">Elite Plan</option>
+                    </select>
+                    <button type="submit" class="w-full bg-primary text-background font-black py-3 rounded-xl mt-2">ADD TO ROSTER</button>
+                </form>
+            </div>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>Total Members</h3>
-            <p><?php echo $result->num_rows; ?></p>
-        </div>
-        <div class="stat-card">
-            <h3>Revenue</h3>
-            <p>$1,250</p>
+            <div class="lg:col-span-2 bg-surface-container-high p-8 rounded-3xl border border-outline-variant">
+                <h2 class="text-xl font-bold mb-6">Registered Members</h2>
+                <table class="w-full text-left">
+                    <thead class="text-primary text-[10px] font-label-caps border-b border-outline-variant">
+                        <tr>
+                            <th class="pb-4">Name</th>
+                            <th class="pb-4">Membership</th>
+                            <th class="pb-4">Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <?php while($row = $members->fetch_assoc()): ?>
+                        <tr class="border-b border-outline-variant/30">
+                            <td class="py-4 font-bold"><?php echo $row['fname'] . " " . $row['lname']; ?></td>
+                            <td class="py-4"><span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px]"><?php echo $row['plan_name']; ?></span></td>
+                            <td class="py-4">$<?php echo $row['price']; ?></td>
+                        </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-    <div class="table-container">
-        <div class="table-header">
-            <h2>Active Memberships</h2>
-            <button class="btn-add" onclick="openModal()">+ Add Member</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Full Name</th>
-                    <th>Plan Type</th>
-                    <th>Monthly Fee</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td>#<?php echo $row['member_id']; ?></td>
-                    <td><?php echo $row['fname'] . " " . $row['lname']; ?></td>
-                    <td><span class="badge"><?php echo $row['plan_name']; ?></span></td>
-                    <td>$<?php echo $row['price']; ?></td>
-                    <td>
-                        <button class="btn-edit">Edit</button>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
-<?php
-include 'db.php'; // This is your connection file
-session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = $_POST['username'];
-    $pass = $_POST['password'];
-
-    // In a real app, you'd check the 'users' table in MySQL
-    // SELECT * FROM users WHERE username='$user' AND password='$pass'
-    
-    if ($user === "admin" && $pass === "elite123") {
-        $_SESSION['user'] = $user;
-        header("Location: index.php"); 
-    } else {
-        echo "Invalid Login";
-    }
-}
-?>
-
-<div class="bg-surface-container-low border border-outline-variant rounded-lg overflow-hidden">
-    <table class="w-full text-left border-collapse">
-        <thead class="bg-surface-container-high text-primary font-label-caps text-xs">
-            <tr>
-                <th class="p-4 border-b border-outline-variant">ID</th>
-                <th class="p-4 border-b border-outline-variant">Full Name</th>
-                <th class="p-4 border-b border-outline-variant">Plan Type</th>
-                <th class="p-4 border-b border-outline-variant">Monthly Fee</th>
-                <th class="p-4 border-b border-outline-variant text-center">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="text-on-surface">
-            <?php while($row = $result->fetch_assoc()): ?>
-            <tr class="hover:bg-surface-container-high transition-colors">
-                <td class="p-4 border-b border-outline-variant">#<?php echo $row['member_id']; ?></td>
-                <td class="p-4 border-b border-outline-variant font-bold"><?php echo htmlspecialchars($row['fname'] . " " . $row['lname']); ?></td>
-                <td class="p-4 border-b border-outline-variant">
-                    <span class="bg-primary-container/30 text-primary text-[10px] px-2 py-1 rounded-full border border-primary/20">
-                        <?php echo $row['plan_name']; ?>
-                    </span>
-                </td>
-                <td class="p-4 border-b border-outline-variant">$<?php echo $row['price']; ?></td>
-                <td class="p-4 border-b border-outline-variant text-center">
-                    <button class="text-primary hover:underline text-sm font-bold">Edit</button>
-                </td>
-            </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
-</div>
