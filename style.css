@@ -38,3 +38,59 @@ img {
     user-select: none;
     -webkit-user-drag: none;
 }
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Grotesk:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+:root {
+    /* The Purple Theme Palette */
+    --primary: #d5baff;            /* Soft Lavender */
+    --primary-container: #3b1a6b;  /* Darker Purple */
+    --on-primary-container: #d0b2ff;
+    
+    --background: #0a090c;         /* Pure Midnight */
+    --surface: #121115;            /* Dark Charcoal-Purple */
+    --surface-container-high: #1a181e;
+    
+    --on-background: #f1eff3;      /* Off-White/Lavender */
+    --on-surface: #e5e2e1;
+    --on-surface-variant: #8e8696;
+    
+    --outline: #4a4453;
+    --outline-variant: #2d2a33;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: var(--background);
+    color: var(--on-background);
+}
+
+.font-label-caps {
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+/* Custom Purple Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary-container);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Glowing text effect for primary headings */
+.text-primary {
+    text-shadow: 0 0 20px rgba(213, 186, 255, 0.25);
+}
+
