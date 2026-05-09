@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'connectiondb.php'; // Ensure this file has the correct DB name
+include 'connectiondb.php'; 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
