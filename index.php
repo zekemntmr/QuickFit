@@ -126,61 +126,61 @@
 
             </div>
         </section>
-        <section class="py-24 px-margin bg-surface-container-lowest">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-        <div class="space-y-2">
-        <span class="text-primary text-label-caps font-label-caps">PRO GUIDANCE</span>
-            <h2 class="text-headline-lg font-headline-lg">Recommended by Pros</h2>
-        /div>
-        <div class="h-[1px] flex-grow bg-outline-variant mx-8 hidden md:block mb-4"></div>
-        <div class="flex gap-2">
-        <span class="material-symbols-outlined text-primary cursor-pointer border border-outline-variant p-2">chevron_left</span>
-        <span class="material-symbols-outlined text-primary cursor-pointer border border-outline-variant p-2">chevron_right</span>
+            <section class="py-24 px-margin bg-surface-container-lowest">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="space-y-2">
+                    <span class="text-primary text-label-caps font-label-caps">PRO GUIDANCE</span>
+                <h2 class="text-headline-lg font-headline-lg">Recommended by Pros</h2>
+            </div>
+                <div class="h-[1px] flex-grow bg-outline-variant mx-8 hidden md:block mb-4"></div>
+                <div class="flex gap-2">
+                <span class="material-symbols-outlined text-primary cursor-pointer border border-outline-variant p-2">chevron_left</span>
+            <span class="material-symbols-outlined text-primary cursor-pointer border border-outline-variant p-2">chevron_right</span>
+            </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+            <!-- Influencer 1 -->
+            <div class="group relative bg-surface-container-high border border-outline-variant p-card-padding flex gap-6 overflow-hidden transition-all hover:border-primary">
+                <div class="w-32 h-32 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">
+                    <div class="w-full h-full bg-surface-variant flex items-center justify-center">
+                    <span class="material-symbols-outlined text-4xl text-outline">person</span>
+                </div>
+            </div>
+            <div class="space-y-3">
+            <div class="bg-primary-container/20 text-primary text-[10px] font-label-caps px-2 py-1 inline-block">STRENGTH ELITE</div>
+            <h3 class="text-headline-md font-headline-md">Train like Alex Silver</h3>
+            <p class="text-on-surface-variant italic font-body-md">"The data-driven approach at QuickfitZe changed how I view recovery. It's clinical, precise, and results-oriented."</p>
+            <div class="flex gap-1">
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            </div>
+            </div>
+            <!-- Influencer 2 -->
+            <div class="group relative bg-surface-container-high border border-outline-variant p-card-padding flex gap-6 overflow-hidden transition-all hover:border-primary">
+            <div class="w-32 h-32 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">
+            <div class="w-full h-full bg-surface-variant flex items-center justify-center">
+            <span class="material-symbols-outlined text-4xl text-outline">person</span>
+            </div>
+            </div>
+            <div class="space-y-3">
+            <div class="bg-primary-container/20 text-primary text-[10px] font-label-caps px-2 py-1 inline-block">YOGA MASTERY</div>
+            <h3 class="text-headline-md font-headline-md">Yoga with Maya</h3>
+            <p class="text-on-surface-variant italic font-body-md">"Finding flow in a high-intensity environment is a challenge, but the atmosphere here is perfectly tuned for focus."</p>
+            <div class="flex gap-1">
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            </div>
+            </div>
         </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-        <!-- Influencer 1 -->
-        <div class="group relative bg-surface-container-high border border-outline-variant p-card-padding flex gap-6 overflow-hidden transition-all hover:border-primary">
-        <div class="w-32 h-32 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">
-        <div class="w-full h-full bg-surface-variant flex items-center justify-center">
-        <span class="material-symbols-outlined text-4xl text-outline">person</span>
-        </div>
-        </div>
-        <div class="space-y-3">
-        <div class="bg-primary-container/20 text-primary text-[10px] font-label-caps px-2 py-1 inline-block">STRENGTH ELITE</div>
-        <h3 class="text-headline-md font-headline-md">Train like Alex Silver</h3>
-        <p class="text-on-surface-variant italic font-body-md">"The data-driven approach at QuickfitZe changed how I view recovery. It's clinical, precise, and results-oriented."</p>
-        <div class="flex gap-1">
-        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        </div>
-        </div>
-        </div>
-        <!-- Influencer 2 -->
-        <div class="group relative bg-surface-container-high border border-outline-variant p-card-padding flex gap-6 overflow-hidden transition-all hover:border-primary">
-        <div class="w-32 h-32 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">
-        <div class="w-full h-full bg-surface-variant flex items-center justify-center">
-        <span class="material-symbols-outlined text-4xl text-outline">person</span>
-        </div>
-        </div>
-        <div class="space-y-3">
-        <div class="bg-primary-container/20 text-primary text-[10px] font-label-caps px-2 py-1 inline-block">YOGA MASTERY</div>
-        <h3 class="text-headline-md font-headline-md">Yoga with Maya</h3>
-        <p class="text-on-surface-variant italic font-body-md">"Finding flow in a high-intensity environment is a challenge, but the atmosphere here is perfectly tuned for focus."</p>
-        <div class="flex gap-1">
-        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-        /div>
-        /div>
-        /div>
-    /div>
-</section>
+    </section>
     </main>
 
     <footer class="bg-surface-container-lowest border-t border-outline-variant flex flex-col md:flex-row justify-between items-center px-margin py-8 gap-8">
