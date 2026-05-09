@@ -6,64 +6,89 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
     $lname = mysqli_real_escape_string($conn, $_POST['lname']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Secure hashing
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $plan_id = $_POST['plan_id'];
 
-    // 1. Insert into 'members' table first
+    /* 1. Insert into members table */
     $sql_member = "INSERT INTO members (fname, lname, plan_id) VALUES ('$fname', '$lname', '$plan_id')";
     
     if ($conn->query($sql_member) === TRUE) {
-        $new_member_id = $conn->insert_id; // Get the ID created for this member
-
-        // 2. Insert into 'member_accounts' table using that ID
-        $sql_account = "INSERT INTO member_accounts (member_id, username, password) VALUES ('$new_member_id', '$username', '$password')";
-        
-        if ($conn->query($sql_account) === TRUE) {
+        $new_id = $conn->insert_id;
+        /* 2. Create the login account linked to that member ID */
+        $sql_acc = "INSERT INTO member_accounts (member_id, username, password) VALUES ('$new_id', '$username', '$password')";
+        if ($conn->query($sql_acc) === TRUE) {
             $message = "success";
         }
     } else {
         $message = "error";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
-<html class="dark">
+<html class="dark" lang="en">
 <head>
-    <title>QuickfitZe | Member Sign Up</title>
+    <meta charset="UTF-8">
+    <title>QuickfitZe | Join the Roster</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css"> </head>
-</head>
-<body class="bg-[#0f0c14] text-white flex items-center justify-center min-h-screen p-6">
-    <div class="max-w-md w-full bg-[#1a1625] p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
-        <h1 class="text-2xl font-black text-purple-400 uppercase mb-2">Create Athlete Account</h1>
-        <p class="text-gray-400 text-xs mb-6">Join the roster and access your performance stats.</p>
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="max-w-md w-full bg-surface border border-outline-variant p-8 rounded-[2rem] shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-black text-primary uppercase tracking-tighter">QuickfitZe</h1>
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-[0.3em] mt-1">Athlete Registration</p>
+        </div>
 
         <?php if($message == "success"): ?>
-            <div class="bg-green-500/10 border border-green-500 text-green-400 p-4 rounded-xl mb-6 text-sm">
-                Account created! <a href="member_login.php" class="font-bold underline">Login here</a>
+            <div class="bg-primary/10 border border-primary text-primary p-4 rounded-xl mb-6 text-xs text-center font-bold">
+                ACCOUNT VERIFIED! <a href="member_login.php" class="underline ml-1">LOG IN HERE</a>
             </div>
         <?php endif; ?>
 
         <form method="POST" class="space-y-4">
-            <div class="grid grid-cols-2 gap-3">
-                <input type="text" name="fname" placeholder="First Name" required class="bg-[#0f0c14] border border-gray-700 p-3 rounded-xl text-sm focus:border-purple-500 outline-none">
-                <input type="text" name="lname" placeholder="Last Name" required class="bg-[#0f0c14] border border-gray-700 p-3 rounded-xl text-sm focus:border-purple-500 outline-none">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] uppercase text-primary font-bold ml-1">First Name</label>
+                    <input type="text" name="fname" required class="w-full p-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase text-primary font-bold ml-1">Last Name</label>
+                    <input type="text" name="lname" required class="w-full p-3 rounded-xl text-sm">
+                </div>
             </div>
-            <input type="text" name="username" placeholder="Choose Username" required class="w-full bg-[#0f0c14] border border-gray-700 p-3 rounded-xl text-sm focus:border-purple-500 outline-none">
-            <input type="password" name="password" placeholder="Password" required class="w-full bg-[#0f0c14] border border-gray-700 p-3 rounded-xl text-sm focus:border-purple-500 outline-none">
-            
-            <select name="plan_id" class="w-full bg-[#0f0c14] border border-gray-700 p-3 rounded-xl text-sm text-gray-400">
-                <option value="1">Basic Plan - ₱2,500</option>
-                <option value="2">Pro Plan - ₱4,500</option>
-                <option value="3">Elite Plan - ₱7,500</option>
-            </select>
 
-            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs">
+            <div>
+                <label class="text-[10px] uppercase text-primary font-bold ml-1">Username</label>
+                <input type="text" name="username" required class="w-full p-3 rounded-xl text-sm">
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase text-primary font-bold ml-1">Password</label>
+                <input type="password" name="password" required class="w-full p-3 rounded-xl text-sm">
+            </div>
+
+            <div>
+                <label class="text-[10px] uppercase text-primary font-bold ml-1">Membership Plan</label>
+                <select name="plan_id" class="w-full p-3 rounded-xl text-sm">
+                    <option value="1">BASIC TIER - ₱2,500</option>
+                    <option value="2">PRO TIER - ₱4,500</option>
+                    <option value="3">ELITE TIER - ₱7,500</option>
+                </select>
+            </div>
+
+            <button type="submit" class="w-full bg-primary text-background font-black py-4 rounded-xl hover:opacity-90 transition-all text-xs uppercase tracking-widest mt-2">
                 Create Account
             </button>
         </form>
+
+        <div class="mt-8 pt-6 border-t border-outline-variant text-center">
+            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest">
+                Already have an account? 
+                <a href="member_login.php" class="text-primary font-bold hover:underline transition-all">Log in</a>
+            </p>
+        </div>
     </div>
+
 </body>
 </html>
