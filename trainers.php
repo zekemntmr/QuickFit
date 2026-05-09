@@ -102,7 +102,7 @@
 
     <!-- TopNavBar -->
     <nav class="fixed top-0 z-50 flex justify-between items-center w-full px-margin py-4 max-w-full border-b border-outline-variant bg-surface-container-low">
-        <div class="text-headline-md font-headline-md font-black tracking-tighter text-primary uppercase">QuickfitZe</div>
+        <div class="text-headline-md font-headline-md font-black tracking-tighter text-primary uppercase" a href="index.php">QuickfitZe</div>
         
         <!-- Desktop Nav -->
         <div class="hidden md:flex gap-gutter items-center">
