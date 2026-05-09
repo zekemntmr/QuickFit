@@ -185,6 +185,15 @@
 
     <footer class="bg-surface-container-lowest border-t border-outline-variant flex flex-col md:flex-row justify-between items-center px-margin py-8 gap-8">
         <div class="text-xl font-black text-primary uppercase">QuickfitZe</div>
+        <div class="flex flex-wrap justify-center gap-8">
+            <a class="text-on-surface-variant text-label-caps font-label-caps hover:text-on-surface transition-colors duration-200" href="#">Privacy Policy</a>
+            <a class="text-on-surface-variant text-label-caps font-label-caps hover:text-on-surface transition-colors duration-200" href="#">Terms of Service</a>
+            <a class="text-on-surface-variant text-label-caps font-label-caps hover:text-on-surface transition-colors duration-200" href="#">Contact Support</a>
+            <a class="text-on-surface-variant text-label-caps font-label-caps hover:text-on-surface transition-colors duration-200" href="#">Affiliates</a>
+            </div>
+            <div class="text-body-md font-body-md text-on-surface-variant">
+            © 2026 QUICKFITZE. NO EXCUSES.
+        </div>
        
     </footer>
 
