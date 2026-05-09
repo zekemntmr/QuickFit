@@ -164,3 +164,136 @@ html {
     display: inline-block;
     vertical-align: middle;
 }
+
+/* QUICKFITZE MASTER STYLESHEET 
+    Theme: Elite Dark / Purpulized
+*/
+
+:root {
+    /* Color Palette */
+    --primary: #d5baff;            /* Lavender Accent */
+    --primary-hover: #c4a1ff;
+    --background: #0f0c14;         /* Deepest Purple/Black */
+    --surface: #1a1625;            /* Dark Card Surface */
+    --surface-light: #241f31;      /* Lighter Card Surface */
+    --on-background: #f1eff3;      /* Main Text */
+    --on-surface-variant: #969299; /* Muted/Secondary Text */
+    --outline-variant: rgba(213, 186, 255, 0.1); /* Subtle Borders */
+}
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--on-background);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- REUSABLE CARD DESIGN --- */
+.card-container {
+    background-color: var(--surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* --- FORM INPUTS (CRITICAL FOR READABILITY) --- */
+/* We force inputs to have white backgrounds and black text for 
+   accessibility against the dark theme. */
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+select, 
+textarea {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary) !important;
+    outline: none;
+    box-shadow: 0 0 15px rgba(213, 186, 255, 0.3);
+}
+
+/* --- BUTTONS --- */
+button, .btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* --- DASHBOARD TABLES --- */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    padding: 1rem;
+    border-bottom: 1px solid var(--outline-variant);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+tr:hover {
+    background-color: rgba(213, 186, 255, 0.03);
+}
+
+/* --- CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--surface-light);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* --- TYPOGRAPHY UTILITIES --- */
+.text-primary { color: var(--primary); }
+.font-black { font-weight: 900; }
+.tracking-tighter { letter-spacing: -0.05em; }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-container {
+        padding: 1.5rem !important;
+        border-radius: 1.5rem;
+    }
+}
