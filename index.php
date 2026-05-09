@@ -46,7 +46,7 @@
         <nav class="hidden md:flex items-center gap-8">
             <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Classes</a>
             <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Memberships</a>
-            <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Trainers</a>
+            <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="trainers.php">Trainers</a>
             <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Schedule</a>
         </nav>
         <div class="flex items-center gap-4">
