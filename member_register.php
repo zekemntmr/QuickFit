@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>QuickfitZe | Member Sign Up</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css"> </head>
 </head>
 <body class="bg-[#0f0c14] text-white flex items-center justify-center min-h-screen p-6">
     <div class="max-w-md w-full bg-[#1a1625] p-8 rounded-3xl border border-purple-500/20 shadow-2xl">
