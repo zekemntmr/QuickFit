@@ -43,7 +43,12 @@
 
     <header class="fixed top-0 z-50 w-full bg-surface-container-low border-b border-outline-variant flex justify-between items-center px-margin py-4">
         <div class="text-2xl font-black tracking-tighter text-primary uppercase">QuickfitZe</div>
-        
+        <nav class="hidden md:flex items-center gap-8">
+            <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Classes</a>
+            <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Memberships</a>
+            <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Trainers</a>
+            <a class="text-on-surface-variant font-medium text-label-caps font-label-caps hover:text-primary hover:border-primary transition-all duration-200" href="#">Schedule</a>
+        </nav>
         <div class="flex items-center gap-4">
             <button onclick="window.location.href='login.php'" class="text-xs font-label-caps font-bold px-4 py-2 text-on-surface-variant hover:text-primary transition-all">Login</button>
             <button class="bg-primary-container text-on-primary-container text-xs font-label-caps font-bold px-6 py-2 hover:opacity-90 transition-all">Join Now</button>
