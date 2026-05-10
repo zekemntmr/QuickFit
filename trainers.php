@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <div class="p-8">
-                        <h3 class="text-3xl font-black text-on-surface uppercase mb-1 tracking-tighter">Zustin 'Oppa' Añasco</h3>
+                        <h3 class="text-3xl font-black text-on-surface uppercase mb-1 tracking-tighter">Ezechias 'Zeke' Montemor</h3>
                         <p class="text-[10px] font-bold text-primary mb-6 uppercase tracking-widest">Strength & Conditioning</p>
                         <p class="text-sm text-on-surface-variant mb-8 line-clamp-3 leading-relaxed">
                             Specializing in explosive power and progressive overload. Trained Olympic-level athletes and professional competitors.
