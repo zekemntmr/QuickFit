@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="username" placeholder="Username" required class="w-full bg-[#0f0c14] border border-gray-800 p-4 rounded-2xl text-sm outline-none focus:border-purple-500">
                 <input type="password" name="password" placeholder="Password" required class="w-full bg-[#0f0c14] border border-gray-800 p-4 rounded-2xl text-sm outline-none focus:border-purple-500">
                 <button type="submit" class="w-full bg-white text-black font-black py-4 rounded-2xl hover:bg-purple-500 hover:text-white transition-all uppercase text-xs tracking-widest">
-                    Enter Console
+                    Login
                 </button>
             </form>
             <p class="text-center text-gray-500 text-[10px] mt-6 uppercase tracking-widest">
