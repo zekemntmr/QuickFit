@@ -33,6 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css"> </head>
 <body class="min-h-screen flex items-center justify-center p-6">
+    <nav class="fixed top-0 z-50 flex justify-between items-center w-full px-margin py-4 border-b border-outline-variant bg-surface-container-low/90 backdrop-blur-md">
+        <a href="index.php" class="text-2xl font-black tracking-tighter text-primary uppercase">QuickfitZe</a>
+    </nav>
 
     <div class="max-w-md w-full bg-surface border border-outline-variant p-8 rounded-[2rem] shadow-2xl">
         <div class="text-center mb-8">
