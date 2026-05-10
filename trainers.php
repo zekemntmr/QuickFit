@@ -75,13 +75,7 @@
         </section>
 
         <section class="px-margin py-6 bg-surface-container-lowest border-y border-outline-variant sticky top-[72px] z-40 overflow-x-auto">
-            <div class="flex items-center gap-8 min-w-max">
-                <span class="text-[10px] font-bold text-outline tracking-widest">FILTER BY SPECIALTY:</span>
-                <button class="bg-primary text-background px-6 py-2 text-[10px] font-black uppercase tracking-widest">All Trainers</button>
-                <button class="text-on-surface-variant hover:text-primary px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors">Strength</button>
-                <button class="text-on-surface-variant hover:text-primary px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors">HIIT</button>
-                <button class="text-on-surface-variant hover:text-primary px-6 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors">Yoga</button>
-            </div>
+            
         </section>
 
         <section class="px-margin py-20">
@@ -120,9 +114,9 @@
                     </div>
                     <div class="p-8">
                         <h3 class="text-3xl font-black text-on-surface uppercase mb-1 tracking-tighter">Ezechias 'Zeke' Montemor</h3>
-                        <p class="text-[10px] font-bold text-primary mb-6 uppercase tracking-widest">Strength & Conditioning</p>
+                        <p class="text-[10px] font-bold text-primary mb-6 uppercase tracking-widest">Endurance</p>
                         <p class="text-sm text-on-surface-variant mb-8 line-clamp-3 leading-relaxed">
-                            Specializing in explosive power and progressive overload. Trained Olympic-level athletes and professional competitors.
+                            Specializing in Muscle Endurance. Trained National-level athletes and professional athletes.
                         </p>
                         <div class="flex justify-between items-center pt-6 border-t border-outline-variant">
                             <div class="flex gap-4">
