@@ -54,20 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="min-h-screen flex items-center justify-center p-6 bg-[#0f0c14]">
     <nav class="fixed top-0 z-50 flex justify-between items-center w-full px-margin py-4 border-b border-outline-variant bg-surface-container-low/90 backdrop-blur-md">
         <a href="index.php" class="text-2xl font-black tracking-tighter text-primary uppercase">QuickfitZe</a>
-        
-        <div class="hidden md:flex gap-8 items-center">
-            <a class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest hover:text-primary transition-all" href="index.php#memberships">Memberships</a>
-            <a class="text-primary border-b-2 border-primary pb-1 text-[10px] font-bold uppercase tracking-widest" href="trainers.php">Trainers</a>
-        </div>
-
-        <div class="flex items-center gap-4">
-            <div class="hidden lg:flex items-center bg-surface-container-high px-4 py-2 border-b border-outline focus-within:border-primary transition-all">
-                <span class="material-symbols-outlined text-outline text-[20px]">search</span>
-                <input class="bg-transparent border-none focus:ring-0 text-[10px] font-bold uppercase tracking-widest placeholder:text-outline text-on-surface" placeholder="SEARCH TRAINERS" type="text"/>
-            </div>
-            <button onclick="window.location.href='member_login.php'" class="text-xs font-bold px-4 py-2 text-on-surface-variant hover:text-primary transition-all uppercase tracking-widest">Login</button>
-            <button onclick="window.location.href='member_register.php'" class="bg-primary text-background text-xs font-bold px-6 py-3 hover:opacity-90 transition-all uppercase tracking-widest">Join Now</button>
-        </div>
     </nav>
 
     <div class="max-w-md w-full bg-surface border border-outline-variant p-10 rounded-[2.5rem] shadow-2xl">
