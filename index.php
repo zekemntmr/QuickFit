@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>QuickfitZe | Elite Performance</title>
+    <title>QuickfitZe | Gym Membership Tracker</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -90,7 +90,7 @@
 
                 <div class="bg-surface-container-high border-2 border-primary p-10 flex flex-col relative md:scale-110 z-10 rounded-3xl shadow-2xl shadow-primary/10">
                     <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-background text-[10px] font-black px-4 py-1 tracking-widest">MOST POPULAR</div>
-                    <span class="text-xs font-bold text-primary tracking-widest uppercase mb-4">Pro</span>
+                    <span class="text-xs font-bold text-primary tracking-widest uppercase mb-4">Premium</span>
                     <div class="text-4xl font-black mb-8">₱4,500 <span class="text-xs text-on-surface-variant font-normal">/mo</span></div>
                     <ul class="space-y-4 mb-10 flex-grow text-sm text-white">
                         <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Unlimited HIIT Classes</li>

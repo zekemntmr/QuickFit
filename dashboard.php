@@ -6,48 +6,66 @@ if (!isset($_SESSION['user'])) { header("Location: login.php"); exit(); }
 /* 2. DATABASE: Connect to your MySQL database using the connection file */
 include 'connectiondb.php';
 
-/* 3. DELETE LOGIC (The "D" in CRUD): 
-   Checks if 'delete_id' is in the URL. If yes, removes that member from the database. */
-if (isset($_GET['delete_id'])) {
-    $id = mysqli_real_escape_string($conn, $_GET['delete_id']);
-    $conn->query("DELETE FROM members WHERE member_id = $id");
-    header("Location: dashboard.php"); // Refresh page to show updated list
+/* NEW: CONFIRMATION LOGIC */
+if (isset($_GET['confirm_id'])) {
+    $id = mysqli_real_escape_string($conn, $_GET['confirm_id']);
+    $conn->query("UPDATE members SET status = 'Active', created_at = NOW() WHERE member_id = $id");
+    header("Location: dashboard.php");
     exit();
 }
 
-/* 4. CREATE & UPDATE LOGIC (The "C" & "U" in CRUD): 
-   Handles form submission for both adding new members and editing existing ones. */
+/* 3. DELETE LOGIC (The "D" in CRUD) */
+if (isset($_GET['delete_id'])) {
+    $id = mysqli_real_escape_string($conn, $_GET['delete_id']);
+    $conn->query("DELETE FROM members WHERE member_id = $id");
+    header("Location: dashboard.php");
+    exit();
+}
+
+/* 4. CREATE & UPDATE LOGIC (The "C" & "U" in CRUD) */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
     $lname = mysqli_real_escape_string($conn, $_POST['lname']);
     $plan_id = $_POST['plan_id'];
 
-    /* If 'member_id' is hidden in the form, we UPDATE. Otherwise, we INSERT new. */
     if (isset($_POST['member_id']) && !empty($_POST['member_id'])) {
         $id = $_POST['member_id'];
         $conn->query("UPDATE members SET fname='$fname', lname='$lname', plan_id='$plan_id' WHERE member_id=$id");
     } else {
-        $conn->query("INSERT INTO members (fname, lname, plan_id) VALUES ('$fname', '$lname', '$plan_id')");
+        // New members are inserted as 'Pending' by default
+        $conn->query("INSERT INTO members (fname, lname, plan_id, status) VALUES ('$fname', '$lname', '$plan_id', 'Pending')");
     }
     header("Location: dashboard.php");
     exit();
 }
 
-/* 5. SEARCH & READ LOGIC (The "R" in CRUD): 
-   Filters the list based on search input and sorts the results. */
+/* 5. SEARCH & READ LOGIC (The "R" in CRUD) */
 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'member_id';
 
-/* SQL JOIN: This combines the 'members' table with the 'plans' table to show prices/names */
-$query = "SELECT m.member_id, m.fname, m.lname, m.plan_id, p.plan_name, p.price 
+// Pull Active Members for the main roster
+$query = "SELECT m.member_id, m.fname, m.lname, m.plan_id, m.status, p.plan_name, p.price 
           FROM members m 
           INNER JOIN plans p ON m.plan_id = p.plan_id 
-          WHERE m.fname LIKE '%$search%' OR m.lname LIKE '%$search%' OR p.plan_name LIKE '%$search%'
+          WHERE (m.fname LIKE '%$search%' OR m.lname LIKE '%$search%' OR p.plan_name LIKE '%$search%')
+          AND m.status = 'Active'
           ORDER BY $sort DESC";
 $members_result = $conn->query($query);
 
-/* 6. CHART DATA: Fetches counts of members per plan for the Chart.js doughnut graph */
-$chart_data = $conn->query("SELECT p.plan_name, COUNT(m.member_id) as count FROM plans p LEFT JOIN members m ON p.plan_id = m.plan_id GROUP BY p.plan_id");
+// Pull Pending Members for the confirmation section
+$pending_query = "SELECT m.member_id, m.fname, m.lname, p.plan_name 
+                  FROM members m 
+                  INNER JOIN plans p ON m.plan_id = p.plan_id 
+                  WHERE m.status = 'Pending'";
+$pending_result = $conn->query($pending_query);
+
+/* 6. CHART DATA */
+$chart_data = $conn->query("
+    SELECT p.plan_name, COUNT(m.member_id) as count 
+    FROM plans p 
+    LEFT JOIN members m ON p.plan_id = m.plan_id AND m.status = 'Active' 
+    GROUP BY p.plan_id
+");
 $labels = []; $counts = [];
 while($row = $chart_data->fetch_assoc()){
     $labels[] = $row['plan_name'];
@@ -63,7 +81,6 @@ while($row = $chart_data->fetch_assoc()){
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css?v=1.1">  
     <style>
-        /* Force text to black inside white inputs for visibility */
         input[type="text"], select { color: black !important; background-color: white !important; }
     </style>
 </head>
@@ -92,7 +109,6 @@ while($row = $chart_data->fetch_assoc()){
                     <h2 id="form-title" class="text-sm font-label-caps text-primary mb-4">Add New Member</h2>
                     <form id="member-form" method="POST" class="space-y-3">
                         <input type="hidden" name="member_id" id="edit-id" value="">
-                        
                         <input type="text" name="fname" placeholder="First Name" required class="w-full bg-background border border-outline-variant p-3 rounded-xl text-sm">
                         <input type="text" name="lname" placeholder="Last Name" required class="w-full bg-background border border-outline-variant p-3 rounded-xl text-sm">
                         <select name="plan_id" class="w-full bg-background border border-outline-variant p-3 rounded-xl text-sm">
@@ -111,72 +127,89 @@ while($row = $chart_data->fetch_assoc()){
                 </div>
             </div>
 
-            <div class="lg:col-span-3 bg-surface-container-high p-8 rounded-3xl border border-outline-variant shadow-2xl overflow-x-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold">Members Roster</h2>
-                    <div class="text-[10px] font-label-caps text-on-surface-variant">
-                        Sorted by: <span class="text-primary"><?php echo $sort; ?></span>
+            <div class="lg:col-span-3 space-y-8">
+                
+                <?php if($pending_result->num_rows > 0): ?>
+                <div class="bg-primary/5 p-8 rounded-3xl border border-primary/30 shadow-2xl">
+                    <h2 class="text-xl font-bold text-primary mb-4 uppercase italic">Pending Approvals</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <?php while($p_row = $pending_result->fetch_assoc()): ?>
+                        <div class="bg-background p-4 rounded-2xl flex justify-between items-center border border-primary/20">
+                            <div>
+                                <p class="text-sm font-bold"><?php echo $p_row['fname'] . " " . $p_row['lname']; ?></p>
+                                <p class="text-[10px] text-primary uppercase font-bold"><?php echo $p_row['plan_name']; ?></p>
+                            </div>
+                            <a href="dashboard.php?confirm_id=<?php echo $p_row['member_id']; ?>" 
+                               class="bg-primary text-background px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:scale-105 transition-all">Confirm</a>
+                        </div>
+                        <?php endwhile; ?>
                     </div>
                 </div>
-                
-                <table class="w-full text-left">
-                    <thead class="text-primary text-[10px] font-label-caps border-b border-outline-variant">
-                        <tr>
-                            <th class="pb-4">ID</th>
-                            <th class="pb-4">Full Name</th>
-                            <th class="pb-4">Membership Tier</th>
-                            <th class="pb-4">Monthly Rate</th>
-                            <th class="pb-4">Status</th>
-                            <th class="pb-4 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm divide-y divide-outline-variant/20">
-                        <?php if($members_result->num_rows > 0): ?>
-                            <?php while($row = $members_result->fetch_assoc()): ?>
-                            <tr class="hover:bg-primary/5 transition-colors">
-                                <td class="py-4 text-on-surface-variant">#<?php echo $row['member_id']; ?></td>
-                                <td class="py-4 font-bold text-on-surface"><?php echo $row['fname'] . " " . $row['lname']; ?></td>
-                                <td class="py-4">
-                                    <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold border border-primary/20 uppercase">
-                                        <?php echo $row['plan_name']; ?>
-                                    </span>
-                                </td>
-                                <td class="py-4 text-on-surface">₱<?php echo number_format($row['price'], 2); ?></td>
-                                <td class="py-4"><span class="text-green-400 text-[10px] font-bold tracking-widest">● ACTIVE</span></td>
-                                <td class="py-4 text-right space-x-3">
-                                    <button type="button" onclick="editMember('<?php echo $row['member_id']; ?>', '<?php echo $row['fname']; ?>', '<?php echo $row['lname']; ?>', '<?php echo $row['plan_id']; ?>')" 
-                                            class="text-blue-400 text-[10px] uppercase font-black hover:underline transition-all">Edit</button>
-                                    <a href="dashboard.php?delete_id=<?php echo $row['member_id']; ?>" 
-                                       onclick="return confirm('Delete Member?')" 
-                                       class="text-red-400 text-[10px] uppercase font-black hover:underline transition-all">Delete</a>
-                                </td>
+                <?php endif; ?>
+
+                <div class="bg-surface-container-high p-8 rounded-3xl border border-outline-variant shadow-2xl overflow-x-auto">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold">Active Members Roster</h2>
+                        <div class="text-[10px] font-label-caps text-on-surface-variant">
+                            Sorted by: <span class="text-primary"><?php echo $sort; ?></span>
+                        </div>
+                    </div>
+                    
+                    <table class="w-full text-left">
+                        <thead class="text-primary text-[10px] font-label-caps border-b border-outline-variant">
+                            <tr>
+                                <th class="pb-4">ID</th>
+                                <th class="pb-4">Full Name</th>
+                                <th class="pb-4">Membership Tier</th>
+                                <th class="pb-4">Monthly Rate</th>
+                                <th class="pb-4">Status</th>
+                                <th class="pb-4 text-right">Actions</th>
                             </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr><td colspan="6" class="py-10 text-center text-on-surface-variant italic">No members found matching your search.</td></tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-outline-variant/20">
+                            <?php if($members_result->num_rows > 0): ?>
+                                <?php while($row = $members_result->fetch_assoc()): ?>
+                                <tr class="hover:bg-primary/5 transition-colors">
+                                    <td class="py-4 text-on-surface-variant">#<?php echo $row['member_id']; ?></td>
+                                    <td class="py-4 font-bold text-on-surface"><?php echo $row['fname'] . " " . $row['lname']; ?></td>
+                                    <td class="py-4">
+                                        <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold border border-primary/20 uppercase">
+                                            <?php echo $row['plan_name']; ?>
+                                        </span>
+                                    </td>
+                                    <td class="py-4 text-on-surface">₱<?php echo number_format($row['price'], 2); ?></td>
+                                    <td class="py-4"><span class="text-green-400 text-[10px] font-bold tracking-widest">● <?php echo strtoupper($row['status']); ?></span></td>
+                                    <td class="py-4 text-right space-x-3">
+                                        <button type="button" onclick="editMember('<?php echo $row['member_id']; ?>', '<?php echo $row['fname']; ?>', '<?php echo $row['lname']; ?>', '<?php echo $row['plan_id']; ?>')" 
+                                                class="text-blue-400 text-[10px] uppercase font-black hover:underline transition-all">Edit</button>
+                                        <a href="dashboard.php?delete_id=<?php echo $row['member_id']; ?>" 
+                                           onclick="return confirm('Delete Member?')" 
+                                           class="text-red-400 text-[10px] uppercase font-black hover:underline transition-all">Delete</a>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr><td colspan="6" class="py-10 text-center text-on-surface-variant italic">No active members found.</td></tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        /* JS: Edit Function - This takes row data and "teleports" it back into the registration form */
         function editMember(id, fname, lname, plan) {
             document.getElementById('edit-id').value = id;
             document.getElementsByName('fname')[0].value = fname;
             document.getElementsByName('lname')[0].value = lname;
             document.getElementsByName('plan_id')[0].value = plan;
-            
-            // Change UI to reflect Edit Mode
             document.getElementById('form-title').innerText = "Update Athlete";
             document.getElementById('submit-btn').innerText = "Save Changes";
             document.getElementById('cancel-btn').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* JS: Chart.js Configuration for the Doughnut Chart */
         const ctx = document.getElementById('membershipChart').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
