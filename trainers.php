@@ -75,7 +75,10 @@
         </section>
 
         <section class="px-margin py-6 bg-surface-container-lowest border-y border-outline-variant sticky top-[72px] z-40 overflow-x-auto">
-            
+            <div class="flex items-center gap-8 min-w-max">
+                <span class="text-[10px] font-bold text-outline tracking-widest">FILTER BY SPECIALTY:</span>
+                <button class="bg-primary text-background px-6 py-2 text-[10px] font-black uppercase tracking-widest">All Trainers</button>
+            </div>
         </section>
 
         <section class="px-margin py-20">
