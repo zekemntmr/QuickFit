@@ -111,6 +111,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="group border border-outline-variant bg-surface-container-low hover:border-primary transition-all duration-500 rounded-[2rem] overflow-hidden shadow-2xl">
+                    <div class="relative aspect-[3/4] overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" alt="Trainer" src="zustin.jpg"/>
+                        <div class="absolute top-6 left-6">
+                            <span class="bg-primary text-background text-[10px] font-black px-4 py-2 uppercase tracking-widest">Master Coach</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-3xl font-black text-on-surface uppercase mb-1 tracking-tighter">Zustin 'Oppa' Añasco</h3>
+                        <p class="text-[10px] font-bold text-primary mb-6 uppercase tracking-widest">Strength & Conditioning</p>
+                        <p class="text-sm text-on-surface-variant mb-8 line-clamp-3 leading-relaxed">
+                            Specializing in explosive power and progressive overload. Trained Olympic-level athletes and professional competitors.
+                        </p>
+                        <div class="flex justify-between items-center pt-6 border-t border-outline-variant">
+                            <div class="flex gap-4">
+                                <span class="material-symbols-outlined text-outline hover:text-primary cursor-pointer">share</span>
+                                <span class="material-symbols-outlined text-outline hover:text-primary cursor-pointer">calendar_today</span>
+                            </div>
+                            <a class="text-[10px] font-black text-on-surface group-hover:text-primary transition-colors flex items-center gap-2 uppercase tracking-widest" href="#">
+                                View Bio <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
                 </div>
         </section>
