@@ -86,7 +86,7 @@
                 
                 <div class="group border border-outline-variant bg-surface-container-low hover:border-primary transition-all duration-500 rounded-[2rem] overflow-hidden shadow-2xl">
                     <div class="relative aspect-[3/4] overflow-hidden">
-                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" alt="Trainer" src="zustin.jpg"/>
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" alt="Trainer" src="img/zustin.jpg"/>
                         <div class="absolute top-6 left-6">
                             <span class="bg-primary text-background text-[10px] font-black px-4 py-2 uppercase tracking-widest">Master Coach</span>
                         </div>
