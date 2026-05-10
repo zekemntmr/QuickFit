@@ -43,8 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'member_id';
 
-// Pull Active Members for the main roster
-$query = "SELECT m.member_id, m.fname, m.lname, m.plan_id, m.status, p.plan_name, p.price 
+// Pull Active Members for the main roster - ADDED m.created_at
+$query = "SELECT m.member_id, m.fname, m.lname, m.plan_id, m.status, m.created_at, p.plan_name, p.price 
           FROM members m 
           INNER JOIN plans p ON m.plan_id = p.plan_id 
           WHERE (m.fname LIKE '%$search%' OR m.lname LIKE '%$search%' OR p.plan_name LIKE '%$search%')
@@ -59,13 +59,8 @@ $pending_query = "SELECT m.member_id, m.fname, m.lname, p.plan_name
                   WHERE m.status = 'Pending'";
 $pending_result = $conn->query($pending_query);
 
-/* 6. CHART DATA */
-$chart_data = $conn->query("
-    SELECT p.plan_name, COUNT(m.member_id) as count 
-    FROM plans p 
-    LEFT JOIN members m ON p.plan_id = m.plan_id AND m.status = 'Active' 
-    GROUP BY p.plan_id
-");
+/* 6. CHART DATA (Only counts active members to match the table) */
+$chart_data = $conn->query("SELECT p.plan_name, COUNT(m.member_id) as count FROM plans p LEFT JOIN members m ON p.plan_id = m.plan_id AND m.status = 'Active' GROUP BY p.plan_id");
 $labels = []; $counts = [];
 while($row = $chart_data->fetch_assoc()){
     $labels[] = $row['plan_name'];
@@ -162,13 +157,18 @@ while($row = $chart_data->fetch_assoc()){
                                 <th class="pb-4">Full Name</th>
                                 <th class="pb-4">Membership Tier</th>
                                 <th class="pb-4">Monthly Rate</th>
-                                <th class="pb-4">Status</th>
+                                <th class="pb-4">Renewal Date</th> <th class="pb-4">Status</th>
                                 <th class="pb-4 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-sm divide-y divide-outline-variant/20">
                             <?php if($members_result->num_rows > 0): ?>
-                                <?php while($row = $members_result->fetch_assoc()): ?>
+                                <?php while($row = $members_result->fetch_assoc()): 
+                                    // Calculate Renewal Date
+                                    $reg_date = strtotime($row['created_at']);
+                                    $renew_date = strtotime("+30 days", $reg_date);
+                                    $is_expired = (time() > $renew_date);
+                                ?>
                                 <tr class="hover:bg-primary/5 transition-colors">
                                     <td class="py-4 text-on-surface-variant">#<?php echo $row['member_id']; ?></td>
                                     <td class="py-4 font-bold text-on-surface"><?php echo $row['fname'] . " " . $row['lname']; ?></td>
@@ -178,7 +178,17 @@ while($row = $chart_data->fetch_assoc()){
                                         </span>
                                     </td>
                                     <td class="py-4 text-on-surface">₱<?php echo number_format($row['price'], 2); ?></td>
-                                    <td class="py-4"><span class="text-green-400 text-[10px] font-bold tracking-widest">● <?php echo strtoupper($row['status']); ?></span></td>
+                                    
+                                    <td class="py-4">
+                                        <span class="<?php echo $is_expired ? 'text-red-500 font-black' : 'text-on-surface'; ?> text-xs">
+                                            <?php echo date('M d, Y', $renew_date); ?>
+                                        </span>
+                                        <?php if($is_expired): ?>
+                                            <span class="block text-[8px] text-red-500 uppercase font-bold tracking-tighter">Needs Renewal</span>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td class="py-4"><span class="<?php echo $is_expired ? 'text-red-500' : 'text-green-400'; ?> text-[10px] font-bold tracking-widest">● <?php echo $is_expired ? 'EXPIRED' : strtoupper($row['status']); ?></span></td>
                                     <td class="py-4 text-right space-x-3">
                                         <button type="button" onclick="editMember('<?php echo $row['member_id']; ?>', '<?php echo $row['fname']; ?>', '<?php echo $row['lname']; ?>', '<?php echo $row['plan_id']; ?>')" 
                                                 class="text-blue-400 text-[10px] uppercase font-black hover:underline transition-all">Edit</button>
@@ -189,7 +199,7 @@ while($row = $chart_data->fetch_assoc()){
                                 </tr>
                                 <?php endwhile; ?>
                             <?php else: ?>
-                                <tr><td colspan="6" class="py-10 text-center text-on-surface-variant italic">No active members found.</td></tr>
+                                <tr><td colspan="7" class="py-10 text-center text-on-surface-variant italic">No active members found.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
