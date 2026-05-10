@@ -7,8 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
 
-    /* SQL JOIN: Connects the login account to the actual member details */
-    $sql = "SELECT ma.*, m.fname, m.lname 
+    /* SQL JOIN: Now includes 'm.status' to verify admin confirmation */
+    $sql = "SELECT ma.*, m.fname, m.lname, m.status 
             FROM member_accounts ma 
             INNER JOIN members m ON ma.member_id = m.member_id 
             WHERE ma.username = '$username'";
@@ -17,11 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
+        
+        // 1. First, verify the password
         if (password_verify($password, $user['password'])) {
-            $_SESSION['member_user'] = $user['fname'] . " " . $user['lname'];
-            $_SESSION['member_id'] = $user['member_id'];
-            header("Location: member_dashboard.php");
-            exit();
+            
+            // 2. NEW CHECK: Check if the Admin has confirmed the account
+            if ($user['status'] == 'Pending') {
+                $error = "ACCOUNT PENDING ADMIN APPROVAL";
+            } else if ($user['status'] == 'Active') {
+                // Login successful only if Active
+                $_SESSION['member_user'] = $user['fname'] . " " . $user['lname'];
+                $_SESSION['member_id'] = $user['member_id'];
+                header("Location: member_dashboard.php");
+                exit();
+            } else {
+                $error = "ACCOUNT IS INACTIVE";
+            }
+
         } else {
             $error = "INVALID PASSWORD";
         }
@@ -49,24 +61,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <?php if($error): ?>
-            <p class="text-red-400 text-[10px] font-bold text-center mb-6 tracking-widest italic uppercase">! <?php echo $error; ?> !</p>
+            <div class="bg-red-500/10 border border-red-500/50 p-4 rounded-xl mb-6">
+                <p class="text-red-400 text-[10px] font-bold text-center tracking-widest italic uppercase">! <?php echo $error; ?> !</p>
+            </div>
         <?php endif; ?>
 
         <form method="POST" class="space-y-6">
             <div>
                 <label class="text-[10px] uppercase text-primary font-bold mb-2 block ml-1 tracking-widest">Username</label>
                 <input type="text" name="username" required 
-                       class="w-full p-4 rounded-2xl text-sm font-bold outline-none border-2 border-transparent focus:border-primary transition-all">
+                       class="w-full p-4 rounded-2xl text-sm font-bold outline-none border-2 border-transparent focus:border-primary transition-all text-black bg-white">
             </div>
 
             <div>
                 <label class="text-[10px] uppercase text-primary font-bold mb-2 block ml-1 tracking-widest">Password</label>
                 <input type="password" name="password" required 
-                       class="w-full p-4 rounded-2xl text-sm font-bold outline-none border-2 border-transparent focus:border-primary transition-all">
+                       class="w-full p-4 rounded-2xl text-sm font-bold outline-none border-2 border-transparent focus:border-primary transition-all text-black bg-white">
             </div>
             
             <div class="pt-4">
-                <button type="submit" class="w-full bg-transparent text-white font-black py-4 rounded-2xl border-none transition-all text-xs uppercase tracking-widest hover:scale-105 active:scale-95">
+                <button type="submit" class="w-full bg-primary text-background font-black py-4 rounded-2xl transition-all text-xs uppercase tracking-widest hover:scale-105 active:scale-95 shadow-lg shadow-primary/20">
                     Log In Account
                 </button>
             </div>
